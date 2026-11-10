@@ -1,0 +1,39 @@
+{
+  "fase": 5,
+  "dataLocal": "2026-10-28T16:51:16.086512-03:00",
+  "versao": "0.5.0",
+  "estado": "Concluída e verificada",
+  "testes": {
+    "unitarios": 15,
+    "integracao": 58,
+    "e2e": 16,
+    "total": 89
+  },
+  "checks": {
+    "lint": "OK, sem avisos",
+    "typecheck": "OK",
+    "build": "OK",
+    "prismaValidate": "OK",
+    "prismaDiff": "Sem diferenças",
+    "fontes": "13 fontes e cópias íntegras por SHA-256",
+    "ui": "Desktop/celular, fluxos completos e capturas conferidos",
+    "integracaoAluno": "Matrícula criada em Cursos aparece na ficha central de Aluno",
+    "seguranca": "Duplicidade, concorrência, exceção inativo, escopo próprio e módulos verificados"
+  },
+  "modelos": 33,
+  "migracoes": 2,
+  "novasDependencias": 0,
+  "novasMigracoes": 0,
+  "limites": {
+    "listagemPorPagina": 10,
+    "opcoesSeletor": 1000,
+    "aulasNaFichaCurso": 200,
+    "matriculasNaFichaCurso": 100
+  },
+  "pendente": [
+    "Gestão de Avaliações",
+    "Biblioteca",
+    "Financeiro",
+    "Integração final e revisão geral"
+  ]
+}

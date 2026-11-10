@@ -1,0 +1,38 @@
+{
+  "fase": 2,
+  "dataLocal": "2026-10-28T15:46:50.020628-03:00",
+  "estado": "Implementação e verificação local concluídas; execução do Compose pendente por ausência de Docker",
+  "modelos": 33,
+  "migracoes": 2,
+  "testes": {
+    "unitarios": 3,
+    "integracao": 14,
+    "e2e": 2,
+    "total": 19
+  },
+  "checks": {
+    "npm ci": "OK, instalação limpa com package-lock.json; aviso de depreciação ESLint 9 documentado",
+    "prisma validate e generate": "OK, 33 modelos e cliente 7.10.1",
+    "prisma migrate deploy": "OK, migração inicial e complemento aplicados nos bancos educacional e educacional_test",
+    "prisma migrate diff --from-config-datasource --to-schema prisma/schema.prisma --exit-code": "OK, nenhuma diferença",
+    "npm run db:seed": "OK, catálogo idempotente, três papéis e cinco módulos, nenhuma conta",
+    "npm run lint": "OK, sem avisos ou erros",
+    "detecção de ciclo com alias TypeScript": "OK, ciclo temporário detectado; probes removidos",
+    "npm run typecheck": "OK",
+    "npm run test:unit": "3 testes aprovados",
+    "npm run test:integration": "14 testes aprovados em PostgreSQL real, incluindo concorrência de vagas",
+    "npm run build": "OK, build de produção Next.js",
+    "npm run test:e2e": "2 testes aprovados: Chromium desktop e móvel com banco real",
+    "npm run test:mail": "OK, SMTP e captura em Mailpit local, sem envio externo",
+    "npm audit": "0 vulnerabilidades reportadas no conjunto consultado, incluindo desenvolvimento",
+    "Compose YAML e imagens": "YAML analisado; tags PostgreSQL e Mailpit existentes no registry, HTTP 200",
+    "docker compose up": "Não executado: Docker ausente neste ambiente",
+    "fontes acadêmicas": "13 originais e 13 cópias conferidos por SHA-256, preservados"
+  },
+  "pendenteFase3": [
+    "login/logout",
+    "sessões e recuperação",
+    "bootstrap root",
+    "autorização e CRUD do núcleo"
+  ]
+}

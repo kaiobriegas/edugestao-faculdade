@@ -1,0 +1,60 @@
+{
+  "fase": 8,
+  "dataLocal": "2026-10-29T10:09:18.389106-03:00",
+  "versao": "0.8.0",
+  "estado": "Concluída e verificada",
+  "testes": {
+    "unitarios": 31,
+    "integracao": 108,
+    "e2e": 28,
+    "total": 167
+  },
+  "checks": {
+    "prismaValidate": "OK",
+    "lint": "Sem erros ou avisos",
+    "typecheck": "OK",
+    "build": "OK; seis páginas e API de Financeiro geradas",
+    "prismaStatus": "Três migrações aplicadas",
+    "prismaDiff": "Sem diferenças",
+    "fontes": "13 fontes originais e cópias íntegras por SHA-256",
+    "ui": "Desktop Chromium e Pixel 7; capturas conferidas visualmente; tabelas com rolagem interna",
+    "integracaoAluno": "Cobrança usa FK do Aluno central e não cria cadastro duplicado",
+    "decimais": "Dinheiro Decimal(14,2), cálculos Prisma.Decimal/ROUND_HALF_UP; 0.10 + 0.20 = 0.30",
+    "descontos": "Próprio, ativo e vigente na emissão; snapshot preservado após edição de plano/benefício",
+    "concorrencia": "Dois pagamentos não excedem saldo; mesma chave registra uma única baixa",
+    "estorno": "Registro preservado com autor/data/motivo, recálculo de saldo e repetição idempotente",
+    "relatorio": "Agregação decimal em RepeatableRead por emissão/aluno/plano; canceladas/estornos fora dos valores",
+    "seguranca": "Servidor confere papel/módulo, Origin, campos permitidos, datas e histórico próprio"
+  },
+  "modelos": 33,
+  "migracoes": 3,
+  "novasEntidades": 0,
+  "novasDependencias": 0,
+  "novasMigracoes": 0,
+  "limites": {
+    "listagemPorPagina": 10,
+    "opcoesSeletor": 1000,
+    "pagamentosRecentesNaFicha": 100,
+    "digitosInteirosMonetarios": 12,
+    "casasDecimais": 2
+  },
+  "restricoes": [
+    "Pagamentos administrativos internos sem gateway ou transferência real",
+    "Periodicidade informativa: emissão manual sem job recorrente",
+    "Um desconto opcional por cobrança, sem cumulatividade",
+    "Sem juros, multas, conciliação, lote ou exportação fiscal",
+    "Referência de comprovante textual sem upload",
+    "Período do relatório filtra emissão de cobrança, não data do pagamento",
+    "Vencida calculada na consulta sem gravar estado por GET",
+    "Docker Compose não executado por ausência do Docker",
+    "Fases 9–10 de integração completa e finalização pendentes"
+  ],
+  "comandos": [
+    "npm.cmd run check",
+    "npm.cmd run test:integration",
+    "npm.cmd run test:e2e",
+    "npm.cmd run db:status",
+    "node node_modules/prisma/build/index.js migrate diff --from-config-datasource --to-schema prisma/schema.prisma --exit-code"
+  ],
+  "proximaFase": "9 — Integração e testes completos"
+}

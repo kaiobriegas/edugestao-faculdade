@@ -1,0 +1,49 @@
+{
+  "fase": 9,
+  "dataLocal": "2026-10-29T10:31:48.956339-03:00",
+  "versao": "0.9.0",
+  "estado": "Concluída e verificada",
+  "testes": {
+    "unitarios": 31,
+    "integracao": 119,
+    "e2e": 32,
+    "total": 182,
+    "novosIntegracao": 11,
+    "novosE2E": 4
+  },
+  "checks": {
+    "testAll": "Aprovado: schema/lint/TypeScript/unidade/build/integração/E2E em sequência",
+    "lint": "Sem erros ou avisos",
+    "build": "OK; indicação da fase atualizada no dashboard e build reconferido",
+    "prismaStatus": "Três migrações aplicadas",
+    "prismaDiff": "Sem diferenças",
+    "fontes": "13 fontes originais e cópias íntegras por SHA-256",
+    "ui": "Jornada completa em Chromium desktop e Pixel 7, contas separadas e capturas conferidas",
+    "alunoUnico": "Mesmo ID acadêmico em matrícula, tentativa/respostas/nota, empréstimo/reserva e cobrança/desconto/pagamento",
+    "autorizacao": "Retirada de cada módulo em sessão aberta, isolamento entre colegas e restrição de mutações comuns",
+    "sessoes": "Grupo/conta inativos revogam tokens; reativação de grupo exige novo login",
+    "vinculoConta": "Senha root, conta única, transferência de acesso sem recriação de Aluno e vinculação posterior de conta",
+    "consistencia": "Operações concorrentes entre módulos, rollback local e FKs de exclusão restrita verificados"
+  },
+  "modelos": 33,
+  "migracoes": 3,
+  "novasEntidades": 0,
+  "novasMigracoes": 0,
+  "novasDependencias": 0,
+  "novaRegraNegocio": false,
+  "arquivosTestes": [
+    "tests/integration/platform.test.ts",
+    "tests/support/integrated-platform.ts",
+    "tests/e2e/platform.spec.ts",
+    "tests/e2e/support/platform-fixture.ts"
+  ],
+  "comandoPrincipal": "npm.cmd run test:all",
+  "restricoes": [
+    "Verificação local do MVP; não é teste de carga ou pentest externo",
+    "Sem publicação/homologação de infraestrutura de produção",
+    "Docker Compose permanece sem execução por ausência do Docker",
+    "Políticas de tentativa única, reserva sem fila e pagamento interno preservadas",
+    "Fase 10 de revisão final, acabamento e procedimentos ainda pendente"
+  ],
+  "proximaFase": "10 — Finalização"
+}

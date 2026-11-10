@@ -1,0 +1,22 @@
+{
+  "data": "2026-10-28",
+  "fontes": 13,
+  "diagramas": 12,
+  "imagens_docx": 12,
+  "entidades_distintas": 26,
+  "regras_academicas": 27,
+  "hashes_copias": "OK",
+  "links_locais": "OK",
+  "software_implementado": false,
+  "testes_software": "Não aplicáveis nesta fase",
+  "documentos": [
+    "README.md",
+    "docs/PLANO_DESENVOLVIMENTO.md",
+    "docs/ANALISE_FONTES.md",
+    "docs/BANCO_DE_DADOS.md",
+    "docs/PERMISSOES.md",
+    "docs/REQUISITOS.md",
+    "docs/PROGRESSO.md",
+    ".env.example"
+  ]
+}

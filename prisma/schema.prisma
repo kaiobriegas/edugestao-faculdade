@@ -1,0 +1,639 @@
+// Relatório revisado e 12 diagramas: docs/fontes. Extensões: docs/decisoes.
+generator client {
+  provider = "prisma-client"
+  output = "../src/generated/prisma"
+}
+datasource db {
+  provider = "postgresql"
+}
+
+enum StatusAluno {
+  MATRICULADO
+  TRANCADO
+  CONCLUIDO
+  CANCELADO
+}
+
+enum StatusMatricula {
+  ATIVA
+  CONCLUIDA
+  CANCELADA
+}
+
+enum TipoQuestao {
+  OBJETIVA
+  DISCURSIVA
+}
+
+enum Alternativa {
+  A
+  B
+  C
+  D
+}
+
+enum StatusTentativa {
+  EM_ANDAMENTO
+  FINALIZADA
+  CORRIGIDA
+}
+
+enum SituacaoExemplar {
+  DISPONIVEL
+  EMPRESTADO
+  INDISPONIVEL
+}
+
+enum SituacaoEmprestimo {
+  ABERTO
+  DEVOLVIDO
+}
+
+enum SituacaoReserva {
+  ATIVA
+  ATENDIDA
+  CANCELADA
+  EXPIRADA
+}
+
+enum TipoDesconto {
+  PERCENTUAL
+  FIXO
+}
+
+enum StatusCobranca {
+  PENDENTE
+  PARCIAL
+  PAGA
+  CANCELADA
+}
+
+enum StatusPagamento {
+  CONFIRMADO
+  ESTORNADO
+}
+
+model Papel {
+  idPapel Int @id @default(autoincrement()) @map("id_papel")
+  nome String @unique
+  descricao String?
+  criadoEm DateTime @default(now()) @db.Timestamptz(3) @map("criado_em")
+  atualizadoEm DateTime @updatedAt @db.Timestamptz(3) @map("atualizado_em")
+  usuarioRegistros Usuario[]
+  @@map("papel")
+}
+
+model Grupo {
+  idGrupo Int @id @default(autoincrement()) @map("id_grupo")
+  nome String
+  descricao String?
+  ativo Boolean @default(true)
+  criadoEm DateTime @default(now()) @db.Timestamptz(3) @map("criado_em")
+  atualizadoEm DateTime @updatedAt @db.Timestamptz(3) @map("atualizado_em")
+  usuarioRegistros Usuario[]
+  grupoModuloRegistros GrupoModulo[]
+  @@map("grupo")
+}
+
+model Modulo {
+  idModulo Int @id @default(autoincrement()) @map("id_modulo")
+  nome String
+  descricao String?
+  ativo Boolean @default(true)
+  codigo String @unique
+  criadoEm DateTime @default(now()) @db.Timestamptz(3) @map("criado_em")
+  atualizadoEm DateTime @updatedAt @db.Timestamptz(3) @map("atualizado_em")
+  grupoModuloRegistros GrupoModulo[]
+  @@map("modulo")
+}
+
+model Usuario {
+  idUsuario Int @id @default(autoincrement()) @map("id_usuario")
+  nome String
+  email String @unique
+  senhaHash String @map("senha_hash")
+  ativo Boolean @default(true)
+  criadoEm DateTime @default(now()) @db.Timestamptz(3) @map("criado_em")
+  atualizadoEm DateTime @updatedAt @db.Timestamptz(3) @map("atualizado_em")
+  grupoId Int @map("grupo_id")
+  grupo Grupo @relation(fields: [grupoId], references: [idGrupo], onDelete: Restrict, onUpdate: Restrict)
+  @@index([grupoId])
+  papelId Int @map("papel_id")
+  papel Papel @relation(fields: [papelId], references: [idPapel], onDelete: Restrict, onUpdate: Restrict)
+  @@index([papelId])
+  aluno Aluno?
+  ocorrenciaRegistros Ocorrencia[]
+  pagamentoRegistros Pagamento[]
+  sessaoRegistros Sessao[]
+  tokenRedefinicaoSenhaRegistros TokenRedefinicaoSenha[]
+  eventoAdministrativoRegistros EventoAdministrativo[]
+  @@map("usuario")
+}
+
+model GrupoModulo {
+  grupoId Int @map("grupo_id")
+  moduloId Int @map("modulo_id")
+  habilitado Boolean @default(true)
+  atualizadoEm DateTime @updatedAt @db.Timestamptz(3) @map("atualizado_em")
+  @@id([grupoId, moduloId])
+  grupo Grupo @relation(fields: [grupoId], references: [idGrupo], onDelete: Restrict, onUpdate: Restrict)
+  @@index([grupoId])
+  modulo Modulo @relation(fields: [moduloId], references: [idModulo], onDelete: Restrict, onUpdate: Restrict)
+  @@index([moduloId])
+  @@map("grupo_modulo")
+}
+
+model Turma {
+  idTurma Int @id @default(autoincrement()) @map("id_turma")
+  nome String
+  descricao String?
+  ano Int
+  periodo String
+  capacidade Int
+  ativo Boolean @default(true)
+  criadoEm DateTime @default(now()) @db.Timestamptz(3) @map("criado_em")
+  atualizadoEm DateTime @updatedAt @db.Timestamptz(3) @map("atualizado_em")
+  alunoRegistros Aluno[]
+  @@map("turma")
+}
+
+model Aluno {
+  idAluno Int @id @default(autoincrement()) @map("id_aluno")
+  nome String
+  dataNascimento DateTime? @db.Date @map("data_nascimento")
+  email String?
+  telefone String?
+  endereco String?
+  matricula String @unique
+  dataMatricula DateTime @db.Date @map("data_matricula")
+  status StatusAluno @default(MATRICULADO)
+  ativo Boolean @default(true)
+  usuarioId Int? @unique @map("usuario_id")
+  @@index([turmaId, status])
+  criadoEm DateTime @default(now()) @db.Timestamptz(3) @map("criado_em")
+  atualizadoEm DateTime @updatedAt @db.Timestamptz(3) @map("atualizado_em")
+  turmaId Int @map("turma_id")
+  turma Turma @relation(fields: [turmaId], references: [idTurma], onDelete: Restrict, onUpdate: Restrict)
+  @@index([turmaId])
+  usuario Usuario? @relation(fields: [usuarioId], references: [idUsuario], onDelete: Restrict, onUpdate: Restrict)
+  alunoResponsavelRegistros AlunoResponsavel[]
+  documentoRegistros Documento[]
+  ocorrenciaRegistros Ocorrencia[]
+  matriculaRegistros Matricula[]
+  tentativaAvaliacaoRegistros TentativaAvaliacao[]
+  respostaRegistros Resposta[]
+  notaRegistros Nota[]
+  emprestimoRegistros Emprestimo[]
+  reservaRegistros Reserva[]
+  descontoRegistros Desconto[]
+  cobrancaRegistros Cobranca[]
+  @@map("aluno")
+}
+
+model Responsavel {
+  idResponsavel Int @id @default(autoincrement()) @map("id_responsavel")
+  nome String
+  cpf String? @unique
+  telefone String?
+  email String?
+  parentesco String?
+  endereco String?
+  ativo Boolean @default(true)
+  criadoEm DateTime @default(now()) @db.Timestamptz(3) @map("criado_em")
+  atualizadoEm DateTime @updatedAt @db.Timestamptz(3) @map("atualizado_em")
+  alunoResponsavelRegistros AlunoResponsavel[]
+  @@map("responsavel")
+}
+
+model AlunoResponsavel {
+  alunoId Int @map("aluno_id")
+  responsavelId Int @map("responsavel_id")
+  parentesco String?
+  criadoEm DateTime @default(now()) @db.Timestamptz(3) @map("criado_em")
+  @@id([alunoId, responsavelId])
+  aluno Aluno @relation(fields: [alunoId], references: [idAluno], onDelete: Restrict, onUpdate: Restrict)
+  @@index([alunoId])
+  responsavel Responsavel @relation(fields: [responsavelId], references: [idResponsavel], onDelete: Restrict, onUpdate: Restrict)
+  @@index([responsavelId])
+  @@map("aluno_responsavel")
+}
+
+model Documento {
+  idDocumento Int @id @default(autoincrement()) @map("id_documento")
+  tipo String
+  descricao String?
+  nomeArquivo String @map("nome_arquivo")
+  dataEnvio DateTime @default(now()) @db.Timestamptz(3) @map("data_envio")
+  status String @default("RECEBIDO")
+  ativo Boolean @default(true)
+  chaveArmazenamento String @unique @map("chave_armazenamento")
+  mimeType String @map("mime_type")
+  tamanhoBytes Int @map("tamanho_bytes")
+  criadoEm DateTime @default(now()) @db.Timestamptz(3) @map("criado_em")
+  atualizadoEm DateTime @updatedAt @db.Timestamptz(3) @map("atualizado_em")
+  alunoId Int @map("aluno_id")
+  aluno Aluno @relation(fields: [alunoId], references: [idAluno], onDelete: Restrict, onUpdate: Restrict)
+  @@index([alunoId])
+  @@map("documento")
+}
+
+model Ocorrencia {
+  idOcorrencia Int @id @default(autoincrement()) @map("id_ocorrencia")
+  tipo String
+  descricao String
+  dataOcorrencia DateTime @db.Timestamptz(3) @map("data_ocorrencia")
+  status String @default("REGISTRADA")
+  ativo Boolean @default(true)
+  criadoEm DateTime @default(now()) @db.Timestamptz(3) @map("criado_em")
+  atualizadoEm DateTime @updatedAt @db.Timestamptz(3) @map("atualizado_em")
+  alunoId Int @map("aluno_id")
+  aluno Aluno @relation(fields: [alunoId], references: [idAluno], onDelete: Restrict, onUpdate: Restrict)
+  @@index([alunoId])
+  autorUsuarioId Int @map("autor_usuario_id")
+  autor Usuario @relation(fields: [autorUsuarioId], references: [idUsuario], onDelete: Restrict, onUpdate: Restrict)
+  @@index([autorUsuarioId])
+  @@map("ocorrencia")
+}
+
+model Curso {
+  idCurso Int @id @default(autoincrement()) @map("id_curso")
+  nome String
+  descricao String?
+  cargaHoraria Int @map("carga_horaria")
+  ativo Boolean @default(true)
+  criadoEm DateTime @default(now()) @db.Timestamptz(3) @map("criado_em")
+  atualizadoEm DateTime @updatedAt @db.Timestamptz(3) @map("atualizado_em")
+  aulaRegistros Aula[]
+  matriculaRegistros Matricula[]
+  @@map("curso")
+}
+
+model Professor {
+  idProfessor Int @id @default(autoincrement()) @map("id_professor")
+  nome String
+  email String
+  especialidade String?
+  ativo Boolean @default(true)
+  criadoEm DateTime @default(now()) @db.Timestamptz(3) @map("criado_em")
+  atualizadoEm DateTime @updatedAt @db.Timestamptz(3) @map("atualizado_em")
+  aulaRegistros Aula[]
+  @@map("professor")
+}
+
+model Aula {
+  idAula Int @id @default(autoincrement()) @map("id_aula")
+  titulo String
+  descricao String?
+  dataHora DateTime @db.Timestamptz(3) @map("data_hora")
+  duracao Int
+  ativo Boolean @default(true)
+  @@index([cursoId, dataHora])
+  criadoEm DateTime @default(now()) @db.Timestamptz(3) @map("criado_em")
+  atualizadoEm DateTime @updatedAt @db.Timestamptz(3) @map("atualizado_em")
+  cursoId Int @map("curso_id")
+  curso Curso @relation(fields: [cursoId], references: [idCurso], onDelete: Restrict, onUpdate: Restrict)
+  @@index([cursoId])
+  professorId Int @map("professor_id")
+  professor Professor @relation(fields: [professorId], references: [idProfessor], onDelete: Restrict, onUpdate: Restrict)
+  @@index([professorId])
+  @@map("aula")
+}
+
+model Matricula {
+  idMatricula Int @id @default(autoincrement()) @map("id_matricula")
+  dataMatricula DateTime @db.Date @map("data_matricula")
+  status StatusMatricula @default(ATIVA)
+  ativo Boolean @default(true)
+  @@index([cursoId, status])
+  criadoEm DateTime @default(now()) @db.Timestamptz(3) @map("criado_em")
+  atualizadoEm DateTime @updatedAt @db.Timestamptz(3) @map("atualizado_em")
+  alunoId Int @map("aluno_id")
+  aluno Aluno @relation(fields: [alunoId], references: [idAluno], onDelete: Restrict, onUpdate: Restrict)
+  @@index([alunoId])
+  cursoId Int @map("curso_id")
+  curso Curso @relation(fields: [cursoId], references: [idCurso], onDelete: Restrict, onUpdate: Restrict)
+  @@index([cursoId])
+  @@map("matricula")
+}
+
+model Avaliacao {
+  idAvaliacao Int @id @default(autoincrement()) @map("id_avaliacao")
+  titulo String
+  descricao String?
+  dataAplicacao DateTime @db.Timestamptz(3) @map("data_aplicacao")
+  tempoLimite Int @map("tempo_limite")
+  tipo String
+  ativo Boolean @default(true)
+  criadoEm DateTime @default(now()) @db.Timestamptz(3) @map("criado_em")
+  atualizadoEm DateTime @updatedAt @db.Timestamptz(3) @map("atualizado_em")
+  questaoRegistros Questao[]
+  tentativaAvaliacaoRegistros TentativaAvaliacao[]
+  notaRegistros Nota[]
+  @@map("avaliacao")
+}
+
+model Questao {
+  idQuestao Int @id @default(autoincrement()) @map("id_questao")
+  enunciado String
+  tipo TipoQuestao
+  pontuacao Int
+  alternativaA String? @map("alternativa_a")
+  alternativaB String? @map("alternativa_b")
+  alternativaC String? @map("alternativa_c")
+  alternativaD String? @map("alternativa_d")
+  alternativaCorreta Alternativa? @map("alternativa_correta")
+  ativo Boolean @default(true)
+  @@unique([idQuestao, avaliacaoId])
+  criadoEm DateTime @default(now()) @db.Timestamptz(3) @map("criado_em")
+  atualizadoEm DateTime @updatedAt @db.Timestamptz(3) @map("atualizado_em")
+  avaliacaoId Int @map("avaliacao_id")
+  avaliacao Avaliacao @relation(fields: [avaliacaoId], references: [idAvaliacao], onDelete: Restrict, onUpdate: Restrict)
+  @@index([avaliacaoId])
+  respostaRegistros Resposta[]
+  @@map("questao")
+}
+
+model TentativaAvaliacao {
+  idTentativa Int @id @default(autoincrement()) @map("id_tentativa")
+  numero Int @default(1)
+  iniciadaEm DateTime @default(now()) @db.Timestamptz(3) @map("iniciada_em")
+  prazoEm DateTime @db.Timestamptz(3) @map("prazo_em")
+  finalizadaEm DateTime? @db.Timestamptz(3) @map("finalizada_em")
+  status StatusTentativa @default(EM_ANDAMENTO)
+  @@unique([alunoId, avaliacaoId, numero])
+  @@unique([idTentativa, alunoId, avaliacaoId])
+  criadoEm DateTime @default(now()) @db.Timestamptz(3) @map("criado_em")
+  atualizadoEm DateTime @updatedAt @db.Timestamptz(3) @map("atualizado_em")
+  alunoId Int @map("aluno_id")
+  aluno Aluno @relation(fields: [alunoId], references: [idAluno], onDelete: Restrict, onUpdate: Restrict)
+  @@index([alunoId])
+  avaliacaoId Int @map("avaliacao_id")
+  avaliacao Avaliacao @relation(fields: [avaliacaoId], references: [idAvaliacao], onDelete: Restrict, onUpdate: Restrict)
+  @@index([avaliacaoId])
+  respostaRegistros Resposta[]
+  nota Nota?
+  @@map("tentativa_avaliacao")
+}
+
+model Resposta {
+  idResposta Int @id @default(autoincrement()) @map("id_resposta")
+  pontuacaoObtida Decimal? @db.Decimal(10, 2) @map("pontuacao_obtida")
+  comentarioCorrecao String? @map("comentario_correcao")
+  texto String?
+  alternativaSelecionada Alternativa? @map("alternativa_selecionada")
+  dataResposta DateTime @default(now()) @db.Timestamptz(3) @map("data_resposta")
+  ativo Boolean @default(true)
+  questaoId Int @map("questao_id")
+  avaliacaoId Int @map("avaliacao_id")
+  tentativaId Int @map("tentativa_id")
+  @@unique([tentativaId, questaoId])
+  criadoEm DateTime @default(now()) @db.Timestamptz(3) @map("criado_em")
+  atualizadoEm DateTime @updatedAt @db.Timestamptz(3) @map("atualizado_em")
+  alunoId Int @map("aluno_id")
+  aluno Aluno @relation(fields: [alunoId], references: [idAluno], onDelete: Restrict, onUpdate: Restrict)
+  @@index([alunoId])
+  questao Questao @relation(fields: [questaoId, avaliacaoId], references: [idQuestao, avaliacaoId], onDelete: Restrict, onUpdate: Restrict)
+  @@index([questaoId, avaliacaoId])
+  tentativa TentativaAvaliacao @relation(fields: [tentativaId, alunoId, avaliacaoId], references: [idTentativa, alunoId, avaliacaoId], onDelete: Restrict, onUpdate: Restrict)
+  @@index([tentativaId, alunoId, avaliacaoId])
+  @@map("resposta")
+}
+
+model Nota {
+  idNota Int @id @default(autoincrement()) @map("id_nota")
+  valor Decimal @db.Decimal(10, 2)
+  dataAvaliacao DateTime @db.Timestamptz(3) @map("data_avaliacao")
+  ativo Boolean @default(true)
+  tentativaId Int @unique @map("tentativa_id")
+  criadoEm DateTime @default(now()) @db.Timestamptz(3) @map("criado_em")
+  atualizadoEm DateTime @updatedAt @db.Timestamptz(3) @map("atualizado_em")
+  alunoId Int @map("aluno_id")
+  aluno Aluno @relation(fields: [alunoId], references: [idAluno], onDelete: Restrict, onUpdate: Restrict)
+  @@index([alunoId])
+  avaliacaoId Int @map("avaliacao_id")
+  avaliacao Avaliacao @relation(fields: [avaliacaoId], references: [idAvaliacao], onDelete: Restrict, onUpdate: Restrict)
+  @@index([avaliacaoId])
+  @@unique([tentativaId, alunoId, avaliacaoId])
+  tentativa TentativaAvaliacao @relation(fields: [tentativaId, alunoId, avaliacaoId], references: [idTentativa, alunoId, avaliacaoId], onDelete: Restrict, onUpdate: Restrict)
+  @@map("nota")
+}
+
+model Categoria {
+  idCategoria Int @id @default(autoincrement()) @map("id_categoria")
+  nome String
+  descricao String?
+  ativo Boolean @default(true)
+  criadoEm DateTime @default(now()) @db.Timestamptz(3) @map("criado_em")
+  atualizadoEm DateTime @updatedAt @db.Timestamptz(3) @map("atualizado_em")
+  livroRegistros Livro[]
+  @@map("categoria")
+}
+
+model Livro {
+  idLivro Int @id @default(autoincrement()) @map("id_livro")
+  titulo String
+  autor String
+  editora String?
+  anoPublicacao Int? @map("ano_publicacao")
+  isbn String? @unique
+  descricao String?
+  ativo Boolean @default(true)
+  criadoEm DateTime @default(now()) @db.Timestamptz(3) @map("criado_em")
+  atualizadoEm DateTime @updatedAt @db.Timestamptz(3) @map("atualizado_em")
+  categoriaId Int @map("categoria_id")
+  categoria Categoria @relation(fields: [categoriaId], references: [idCategoria], onDelete: Restrict, onUpdate: Restrict)
+  @@index([categoriaId])
+  exemplarRegistros Exemplar[]
+  reservaRegistros Reserva[]
+  @@map("livro")
+}
+
+model Exemplar {
+  idExemplar Int @id @default(autoincrement()) @map("id_exemplar")
+  codigo String @unique
+  situacao SituacaoExemplar @default(DISPONIVEL)
+  dataAquisicao DateTime? @db.Date @map("data_aquisicao")
+  localizacao String?
+  ativo Boolean @default(true)
+  criadoEm DateTime @default(now()) @db.Timestamptz(3) @map("criado_em")
+  atualizadoEm DateTime @updatedAt @db.Timestamptz(3) @map("atualizado_em")
+  livroId Int @map("livro_id")
+  livro Livro @relation(fields: [livroId], references: [idLivro], onDelete: Restrict, onUpdate: Restrict)
+  @@index([livroId])
+  emprestimoRegistros Emprestimo[]
+  @@map("exemplar")
+}
+
+model Emprestimo {
+  idEmprestimo Int @id @default(autoincrement()) @map("id_emprestimo")
+  dataEmprestimo DateTime @default(now()) @db.Timestamptz(3) @map("data_emprestimo")
+  dataPrevistaDevolucao DateTime @db.Timestamptz(3) @map("data_prevista_devolucao")
+  dataDevolucao DateTime? @db.Timestamptz(3) @map("data_devolucao")
+  situacao SituacaoEmprestimo @default(ABERTO)
+  ativo Boolean @default(true)
+  @@index([alunoId, dataEmprestimo])
+  criadoEm DateTime @default(now()) @db.Timestamptz(3) @map("criado_em")
+  atualizadoEm DateTime @updatedAt @db.Timestamptz(3) @map("atualizado_em")
+  alunoId Int @map("aluno_id")
+  aluno Aluno @relation(fields: [alunoId], references: [idAluno], onDelete: Restrict, onUpdate: Restrict)
+  @@index([alunoId])
+  exemplarId Int @map("exemplar_id")
+  exemplar Exemplar @relation(fields: [exemplarId], references: [idExemplar], onDelete: Restrict, onUpdate: Restrict)
+  @@index([exemplarId])
+  @@map("emprestimo")
+}
+
+model Reserva {
+  idReserva Int @id @default(autoincrement()) @map("id_reserva")
+  dataReserva DateTime @default(now()) @db.Timestamptz(3) @map("data_reserva")
+  dataExpiracao DateTime @db.Timestamptz(3) @map("data_expiracao")
+  situacao SituacaoReserva @default(ATIVA)
+  ativo Boolean @default(true)
+  @@index([livroId, situacao])
+  criadoEm DateTime @default(now()) @db.Timestamptz(3) @map("criado_em")
+  atualizadoEm DateTime @updatedAt @db.Timestamptz(3) @map("atualizado_em")
+  alunoId Int @map("aluno_id")
+  aluno Aluno @relation(fields: [alunoId], references: [idAluno], onDelete: Restrict, onUpdate: Restrict)
+  @@index([alunoId])
+  livroId Int @map("livro_id")
+  livro Livro @relation(fields: [livroId], references: [idLivro], onDelete: Restrict, onUpdate: Restrict)
+  @@index([livroId])
+  @@map("reserva")
+}
+
+model PlanoFinanceiro {
+  idPlano Int @id @default(autoincrement()) @map("id_plano")
+  nome String
+  descricao String?
+  valor Decimal @db.Decimal(14, 2)
+  periodicidade String
+  ativo Boolean @default(true)
+  criadoEm DateTime @default(now()) @db.Timestamptz(3) @map("criado_em")
+  atualizadoEm DateTime @updatedAt @db.Timestamptz(3) @map("atualizado_em")
+  cobrancaRegistros Cobranca[]
+  @@map("plano_financeiro")
+}
+
+model Desconto {
+  idDesconto Int @id @default(autoincrement()) @map("id_desconto")
+  descricao String
+  tipo TipoDesconto
+  percentual Decimal? @db.Decimal(5, 2)
+  valor Decimal? @db.Decimal(14, 2)
+  dataInicio DateTime @db.Date @map("data_inicio")
+  dataFim DateTime @db.Date @map("data_fim")
+  ativo Boolean @default(true)
+  @@unique([idDesconto, alunoId])
+  criadoEm DateTime @default(now()) @db.Timestamptz(3) @map("criado_em")
+  atualizadoEm DateTime @updatedAt @db.Timestamptz(3) @map("atualizado_em")
+  alunoId Int @map("aluno_id")
+  aluno Aluno @relation(fields: [alunoId], references: [idAluno], onDelete: Restrict, onUpdate: Restrict)
+  @@index([alunoId])
+  cobrancaRegistros Cobranca[]
+  @@map("desconto")
+}
+
+model Cobranca {
+  idCobranca Int @id @default(autoincrement()) @map("id_cobranca")
+  dataVencimento DateTime @db.Date @map("data_vencimento")
+  valorOriginal Decimal @db.Decimal(14, 2) @map("valor_original")
+  valorFinal Decimal @db.Decimal(14, 2) @map("valor_final")
+  status StatusCobranca @default(PENDENTE)
+  dataEmissao DateTime @db.Date @map("data_emissao")
+  ativo Boolean @default(true)
+  descontoId Int? @map("desconto_id")
+  descontoTipoAplicado TipoDesconto? @map("desconto_tipo_aplicado")
+  descontoValorAplicado Decimal? @db.Decimal(14, 2) @map("desconto_valor_aplicado")
+  descontoPercentualAplicado Decimal? @db.Decimal(5, 2) @map("desconto_percentual_aplicado")
+  @@index([alunoId, dataVencimento, status])
+  criadoEm DateTime @default(now()) @db.Timestamptz(3) @map("criado_em")
+  atualizadoEm DateTime @updatedAt @db.Timestamptz(3) @map("atualizado_em")
+  alunoId Int @map("aluno_id")
+  aluno Aluno @relation(fields: [alunoId], references: [idAluno], onDelete: Restrict, onUpdate: Restrict)
+  @@index([alunoId])
+  planoId Int @map("plano_id")
+  plano PlanoFinanceiro @relation(fields: [planoId], references: [idPlano], onDelete: Restrict, onUpdate: Restrict)
+  @@index([planoId])
+  desconto Desconto? @relation(fields: [descontoId, alunoId], references: [idDesconto, alunoId], onDelete: Restrict, onUpdate: Restrict)
+  @@index([descontoId, alunoId])
+  pagamentoRegistros Pagamento[]
+  @@map("cobranca")
+}
+
+model Pagamento {
+  idPagamento Int @id @default(autoincrement()) @map("id_pagamento")
+  dataPagamento DateTime @db.Timestamptz(3) @map("data_pagamento")
+  valor Decimal @db.Decimal(14, 2)
+  formaPagamento String @map("forma_pagamento")
+  comprovante String?
+  status StatusPagamento @default(CONFIRMADO)
+  ativo Boolean @default(true)
+  chaveIdempotencia String @map("chave_idempotencia")
+  estornadoEm DateTime? @db.Timestamptz(3) @map("estornado_em")
+  motivoEstorno String? @map("motivo_estorno")
+  estornadoPorId Int? @map("estornado_por_id")
+  @@unique([cobrancaId, chaveIdempotencia])
+  @@index([cobrancaId, dataPagamento])
+  criadoEm DateTime @default(now()) @db.Timestamptz(3) @map("criado_em")
+  atualizadoEm DateTime @updatedAt @db.Timestamptz(3) @map("atualizado_em")
+  cobrancaId Int @map("cobranca_id")
+  cobranca Cobranca @relation(fields: [cobrancaId], references: [idCobranca], onDelete: Restrict, onUpdate: Restrict)
+  @@index([cobrancaId])
+  autorEstorno Usuario? @relation(fields: [estornadoPorId], references: [idUsuario], onDelete: Restrict, onUpdate: Restrict)
+  @@index([estornadoPorId])
+  @@map("pagamento")
+}
+
+model Sessao {
+  id String @id @default(cuid())
+  tokenHash String @unique @db.Char(64) @map("token_hash")
+  expiraEm DateTime @db.Timestamptz(3) @map("expira_em")
+  revogadoEm DateTime? @db.Timestamptz(3) @map("revogado_em")
+  @@index([expiraEm])
+  criadoEm DateTime @default(now()) @db.Timestamptz(3) @map("criado_em")
+  atualizadoEm DateTime @updatedAt @db.Timestamptz(3) @map("atualizado_em")
+  usuarioId Int @map("usuario_id")
+  usuario Usuario @relation(fields: [usuarioId], references: [idUsuario], onDelete: Restrict, onUpdate: Restrict)
+  @@index([usuarioId])
+  @@map("sessao")
+}
+
+model TokenRedefinicaoSenha {
+  id String @id @default(cuid())
+  tokenHash String @unique @db.Char(64) @map("token_hash")
+  expiraEm DateTime @db.Timestamptz(3) @map("expira_em")
+  consumidoEm DateTime? @db.Timestamptz(3) @map("consumido_em")
+  @@index([expiraEm])
+  criadoEm DateTime @default(now()) @db.Timestamptz(3) @map("criado_em")
+  atualizadoEm DateTime @updatedAt @db.Timestamptz(3) @map("atualizado_em")
+  usuarioId Int @map("usuario_id")
+  usuario Usuario @relation(fields: [usuarioId], references: [idUsuario], onDelete: Restrict, onUpdate: Restrict)
+  @@index([usuarioId])
+  @@map("token_redefinicao_senha")
+}
+
+model EventoAdministrativo {
+  idEvento Int @id @default(autoincrement()) @map("id_evento")
+  acao String
+  entidade String
+  registroId String? @map("registro_id")
+  ocorridoEm DateTime @default(now()) @db.Timestamptz(3) @map("ocorrido_em")
+  metadados Json?
+  @@index([ocorridoEm])
+  criadoEm DateTime @default(now()) @db.Timestamptz(3) @map("criado_em")
+  atualizadoEm DateTime @updatedAt @db.Timestamptz(3) @map("atualizado_em")
+  atorUsuarioId Int? @map("ator_usuario_id")
+  ator Usuario? @relation(fields: [atorUsuarioId], references: [idUsuario], onDelete: Restrict, onUpdate: Restrict)
+  @@index([atorUsuarioId])
+  @@map("evento_administrativo")
+}
+
+model LimiteAutenticacao {
+  chaveHash String @id @db.Char(64) @map("chave_hash")
+  janelaInicio DateTime @db.Timestamptz(3) @map("janela_inicio")
+  contador Int @default(0)
+  bloqueadoAte DateTime? @db.Timestamptz(3) @map("bloqueado_ate")
+  criadoEm DateTime @default(now()) @db.Timestamptz(3) @map("criado_em")
+  atualizadoEm DateTime @updatedAt @db.Timestamptz(3) @map("atualizado_em")
+  @@map("limite_autenticacao")
+}

@@ -1,0 +1,45 @@
+{
+  "fase": 4,
+  "dataLocal": "2026-10-28T16:31:45.915014-03:00",
+  "versao": "0.4.0",
+  "estado": "Concluída e verificada",
+  "testes": {
+    "unitarios": 11,
+    "integracao": 42,
+    "e2e": 12,
+    "total": 65
+  },
+  "checks": {
+    "lint": "OK, sem erros/avisos",
+    "typescript": "OK",
+    "build": "OK",
+    "prismaValidate": "OK",
+    "prismaDiff": "Sem diferenças",
+    "fontesOriginais": "13 fontes e cópias íntegras por SHA-256",
+    "ui": "Desktop e celular conferidos; sem overflow horizontal da página",
+    "uploadDownload": "Operação real e bytes conferidos",
+    "autorizacao": "Vínculo root com reautenticação; aluno só lê ficha/arquivos próprios; ocorrências internas omitidas"
+  },
+  "modelos": 33,
+  "migracoes": 2,
+  "novasDependencias": 0,
+  "novasMigracoes": 0,
+  "limites": {
+    "arquivoPadraoBytes": 10485760,
+    "formatos": [
+      "PDF",
+      "PNG",
+      "JPEG"
+    ],
+    "fichaDocumentosEOcorrencias": 100,
+    "historicoMatriculasENotas": 20,
+    "seletorOpcoes": 1000
+  },
+  "pendente": [
+    "Gestão de Cursos",
+    "Gestão de Avaliações",
+    "Biblioteca",
+    "Financeiro",
+    "Integração final e revisão geral"
+  ]
+}

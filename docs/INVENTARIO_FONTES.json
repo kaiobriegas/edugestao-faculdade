@@ -1,0 +1,80 @@
+[
+  {
+    "origem": "C:\\Users\\kaiob\\Downloads\\Relatorio_Modelagem_Educacional_Revisado.docx",
+    "copia": "docs\\fontes\\Relatorio_Modelagem_Educacional_Revisado.docx",
+    "bytes": 4414446,
+    "sha256": "61efcc103f4da10ca7d3bd845d7d0c8a2963344ec8ba1234e3cf0ef37be7e5b3"
+  },
+  {
+    "origem": "C:\\Trabalho_Banco_de_Dados\\Avaliacoes\\Gestao de Avaliacoes Classe.drawio",
+    "copia": "docs\\fontes\\diagramas\\Avaliacoes\\Gestao de Avaliacoes Classe.drawio",
+    "bytes": 23644,
+    "sha256": "de1ed8fb59c8a37e596ed6c733d8fa98be391876a4d4741e22f67613ae398f07"
+  },
+  {
+    "origem": "C:\\Trabalho_Banco_de_Dados\\Avaliacoes\\Gestao de Avaliações Entidade.drawio",
+    "copia": "docs\\fontes\\diagramas\\Avaliacoes\\Gestao de Avaliações Entidade.drawio",
+    "bytes": 10389,
+    "sha256": "687218add995a54f15fc13d89410bca3a81858bf0567c8deeff2274be779cfec"
+  },
+  {
+    "origem": "C:\\Trabalho_Banco_de_Dados\\Biblioteca\\Biblioteca Diagrama Classe.drawio",
+    "copia": "docs\\fontes\\diagramas\\Biblioteca\\Biblioteca Diagrama Classe.drawio",
+    "bytes": 26958,
+    "sha256": "99b296cec93ca2044cf34fd28b79fc3649044e3eb80172953adca5cb3f10145c"
+  },
+  {
+    "origem": "C:\\Trabalho_Banco_de_Dados\\Biblioteca\\Biblioteca Diagrama Entidades.drawio",
+    "copia": "docs\\fontes\\diagramas\\Biblioteca\\Biblioteca Diagrama Entidades.drawio",
+    "bytes": 11594,
+    "sha256": "0d17e3e73b46e30c75b8fb9644cbb26493102771444fb218b9e0e45797dd7c9b"
+  },
+  {
+    "origem": "C:\\Trabalho_Banco_de_Dados\\Financeiro\\Financeiro Diagrama Classe.drawio",
+    "copia": "docs\\fontes\\diagramas\\Financeiro\\Financeiro Diagrama Classe.drawio",
+    "bytes": 24627,
+    "sha256": "2d9c73d74abc4eb6c0f3e982c18459ac78abda81d39017a3a87732ef48885ea3"
+  },
+  {
+    "origem": "C:\\Trabalho_Banco_de_Dados\\Financeiro\\Financeiro Diagrama Entidades.drawio",
+    "copia": "docs\\fontes\\diagramas\\Financeiro\\Financeiro Diagrama Entidades.drawio",
+    "bytes": 9901,
+    "sha256": "fe68d3e24a0a08571f18ac0427344c874a865d89bc7e98878a93eb649364d81b"
+  },
+  {
+    "origem": "C:\\Trabalho_Banco_de_Dados\\Gestao de Alunos\\Gestao de Alunos Classe.drawio",
+    "copia": "docs\\fontes\\diagramas\\Gestao de Alunos\\Gestao de Alunos Classe.drawio",
+    "bytes": 24997,
+    "sha256": "8420288e825f51de53f75ab1999dc46a4297a487c874ef35c2e1a0d5bffe4937"
+  },
+  {
+    "origem": "C:\\Trabalho_Banco_de_Dados\\Gestao de Alunos\\Gestao de Alunos Entidade.drawio",
+    "copia": "docs\\fontes\\diagramas\\Gestao de Alunos\\Gestao de Alunos Entidade.drawio",
+    "bytes": 8237,
+    "sha256": "78baeac0bcb5057208e3212b0b0e54b30289390cb9de065419f4ee05248f2d5c"
+  },
+  {
+    "origem": "C:\\Trabalho_Banco_de_Dados\\Gestao de Cursos\\Gestao de Cursos Classe.drawio",
+    "copia": "docs\\fontes\\diagramas\\Gestao de Cursos\\Gestao de Cursos Classe.drawio",
+    "bytes": 19689,
+    "sha256": "4b42cc882c5758e31716b1af975da290730963f62ea2a45bf7a0513039472e62"
+  },
+  {
+    "origem": "C:\\Trabalho_Banco_de_Dados\\Gestao de Cursos\\Gestao de Cursos Entidade.drawio",
+    "copia": "docs\\fontes\\diagramas\\Gestao de Cursos\\Gestao de Cursos Entidade.drawio",
+    "bytes": 8106,
+    "sha256": "62515c8117bccb22c24eab4f7d98a4e91e19aa28cfd12e0f83a77cd1f3a86fb1"
+  },
+  {
+    "origem": "C:\\Trabalho_Banco_de_Dados\\Nucleo\\Nucleo Diagrama de Classes.drawio",
+    "copia": "docs\\fontes\\diagramas\\Nucleo\\Nucleo Diagrama de Classes.drawio",
+    "bytes": 19157,
+    "sha256": "e53593f792ae19eaf4b85ae7c96599b33a885fc286da2614832e8a7b1ced2107"
+  },
+  {
+    "origem": "C:\\Trabalho_Banco_de_Dados\\Nucleo\\Nucleo Diagrama de Entidades.drawio",
+    "copia": "docs\\fontes\\diagramas\\Nucleo\\Nucleo Diagrama de Entidades.drawio",
+    "bytes": 10537,
+    "sha256": "e84f7695d3a0ee50f4cc81fda69ca3237891aae4d5ffc64e209df6af10d76ab3"
+  }
+]

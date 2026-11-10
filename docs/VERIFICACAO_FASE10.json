@@ -1,0 +1,74 @@
+{
+  "fase": 10,
+  "dataLocal": "2026-10-29T11:04:57.578740-03:00",
+  "versao": "1.0.0",
+  "estado": "Dez fases concluídas no MVP acadêmico local",
+  "testes": {
+    "unitarios": 36,
+    "integracao": 119,
+    "e2e": 36,
+    "total": 191
+  },
+  "checks": {
+    "schema": "Válido",
+    "lint": "Sem erros ou avisos",
+    "typecheck": "OK",
+    "build": "OK",
+    "prismaStatus": "Três migrações aplicadas",
+    "prismaDiff": "Sem diferenças",
+    "fontes": "13 originais e cópias íntegros por SHA-256",
+    "teclado": "Pular menu, página ativa, foco no formulário e restauração verificados em desktop/celular",
+    "seguranca": "Sessão HttpOnly/SameSite, no-store, headers, limites JSON e arquivos/configuração não públicos verificados",
+    "instalacaoLimpa": "npm ci sem node_modules/build anteriores; check/build aprovados após antecipar a geração Prisma",
+    "smokeCopiaLimpa": {
+      "login": 200,
+      "language": true,
+      "brand": true,
+      "health": 200,
+      "database": "connected",
+      "privatePage": 307,
+      "privateApi": 401,
+      "env": 404
+    },
+    "codigoCopia": "Comparado com o projeto final; hashes de runtime preservados no registro da tarefa",
+    "iniciadorWindows": "INICIAR_PROJETO.cmd executado; login e health 200; servidor próprio encerrado",
+    "auditProducao": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    }
+  },
+  "correcoes": [
+    "Check gera Prisma antes do TypeScript para validar cópia nova",
+    "Guard compartilhado evita banco de teste igual ao da aplicação, inclusive aliases de loopback",
+    "APP_URL restrita a HTTP/HTTPS sem credenciais",
+    "Teclado/foco e mensagens de entrega revisados",
+    "Scripts PowerShell salvos em UTF-8 com BOM para leitura correta no Windows PowerShell"
+  ],
+  "modelos": 33,
+  "migracoes": 3,
+  "novasEntidades": 0,
+  "novasMigracoes": 0,
+  "novasDependencias": 0,
+  "documentacao": [
+    "README.md",
+    "docs/GUIA_EXECUCAO.md",
+    "docs/REVISAO_FINAL.md",
+    "docs/PLANO_DESENVOLVIMENTO.md",
+    "docs/BANCO_DE_DADOS.md",
+    "docs/REQUISITOS.md",
+    "docs/PERMISSOES.md",
+    "docs/PROGRESSO.md"
+  ],
+  "limites": [
+    "MVP local; não houve publicação ou homologação de produção",
+    "Cópia limpa usou PostgreSQL/Mailpit nativos existentes e banco exclusivo de teste",
+    "Docker Compose não executado por ausência do Docker",
+    "Sem teste de carga, pentest externo ou auditoria jurídica/LGPD formal",
+    "Tentativa única, reserva sem fila e pagamentos internos sem gateway preservados",
+    "Primeiro root deve ser escolhido pelo usuário; sem credenciais padrão"
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "fase": 7,
+  "dataLocal": "2026-10-29T09:46:42.578446-03:00",
+  "versao": "0.7.0",
+  "estado": "Concluída e verificada",
+  "testes": {
+    "unitarios": 25,
+    "integracao": 90,
+    "e2e": 24,
+    "total": 139
+  },
+  "checks": {
+    "prismaValidate": "OK",
+    "lint": "Sem erros ou avisos",
+    "typecheck": "OK",
+    "build": "OK, seis páginas e API de Biblioteca geradas",
+    "prismaStatus": "Três migrações aplicadas",
+    "prismaDiff": "Sem diferenças",
+    "fontes": "13 fontes originais e cópias íntegras por SHA-256",
+    "ui": "Desktop Chromium e Pixel 7; capturas conferidas visualmente e rolagem interna de tabelas",
+    "integracaoAluno": "Empréstimo usa FK do Aluno central sem criar outro cadastro",
+    "seguranca": "Papel/módulo, Origin, estado inativo, escopo próprio e ID de aluno adulterado verificados",
+    "concorrencia": "Duas retiradas do mesmo exemplar: uma aceita; índice parcial e transação protegem o registro",
+    "devolucao": "Atualização de empréstimo/exemplar e repetição sem desfazer empréstimo posterior",
+    "reservas": "Validade, duplicidade válida, cancelamento, atendimento e expiração calculada/registrada"
+  },
+  "modelos": 33,
+  "migracoes": 3,
+  "novasEntidades": 0,
+  "novasDependencias": 0,
+  "novasMigracoes": 0,
+  "limites": {
+    "listagemPorPagina": 10,
+    "opcoesSeletor": 1000,
+    "exemplaresNaFicha": 100
+  },
+  "restricoes": [
+    "Retiradas e reservas são registradas por gestores; Usuário consulta acervo e histórico próprio",
+    "Sem fila de prioridade ou bloqueio automático de exemplar por reserva",
+    "Sem multas ou renovação automática",
+    "Expiração efetiva e atraso calculados no GET; encerramento de reserva por POST administrativo",
+    "Sem cron/worker, exportação ou notificação de atrasos",
+    "Docker Compose não executado por ausência do Docker",
+    "Financeiro, integração completa e finalização pendentes"
+  ],
+  "comandos": [
+    "npm.cmd run check",
+    "npm.cmd run test:integration",
+    "npm.cmd run test:e2e",
+    "npm.cmd run db:status",
+    "node node_modules/prisma/build/index.js migrate diff --from-config-datasource --to-schema prisma/schema.prisma --exit-code"
+  ],
+  "proximaFase": "8 — Financeiro"
+}

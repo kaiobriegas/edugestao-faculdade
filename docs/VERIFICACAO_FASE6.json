@@ -1,0 +1,58 @@
+{
+  "fase": 6,
+  "dataLocal": "2026-10-28T17:15:54.401960-03:00",
+  "versao": "0.6.0",
+  "estado": "Concluída e verificada",
+  "testes": {
+    "unitarios": 20,
+    "integracao": 73,
+    "e2e": 20,
+    "total": 113
+  },
+  "checks": {
+    "prismaValidate": "OK",
+    "lint": "Sem erros ou avisos",
+    "typecheck": "OK",
+    "build": "OK, 4 páginas do módulo e API dinâmica geradas",
+    "prismaStatus": "3 migrações aplicadas",
+    "prismaDiff": "Sem diferenças",
+    "fontes": "13 fontes originais e cópias íntegras por SHA-256",
+    "ui": "Desktop Chromium e Pixel 7; capturas conferidas visualmente",
+    "integracaoAluno": "Nota gerada é consultada no histórico do mesmo Aluno central",
+    "seguranca": "Gabarito omitido antes de finalizar, escopo próprio, papel/módulo, Origin, identidade/pontos forjados, prazo e concorrência testados"
+  },
+  "modelos": 33,
+  "migracoes": 3,
+  "novasEntidades": 0,
+  "novasDependencias": 0,
+  "novasMigracoes": 1,
+  "limites": {
+    "questoesAtivasPorProva": 100,
+    "caracteresEnunciadoResposta": 5000,
+    "caracteresAlternativaComentario": 2000,
+    "tempoMinutos": [
+      1,
+      1440
+    ],
+    "tentativasPorAlunoAvaliacao": 1,
+    "listagemPorPagina": 10,
+    "bytesJsonRespostas": 1048576
+  },
+  "restricoes": [
+    "Sem cron/worker: finalização vencida por POST do navegador ou gestor",
+    "Respostas precisam ser salvas explicitamente",
+    "Nota em pontos, sem média de aprovação presumida",
+    "Sem relação Avaliacao-Curso/Turma nas fontes",
+    "Sem proctoring ou anexos de questões",
+    "Docker Compose não executado por ausência do Docker",
+    "Biblioteca e Financeiro ainda não implementados"
+  ],
+  "comandos": [
+    "npm.cmd run check",
+    "npm.cmd run test:integration",
+    "npm.cmd run test:e2e",
+    "npm.cmd run db:status",
+    "node node_modules/prisma/build/index.js migrate diff --from-config-datasource --to-schema prisma/schema.prisma --exit-code"
+  ],
+  "proximaFase": "7 — Biblioteca"
+}
